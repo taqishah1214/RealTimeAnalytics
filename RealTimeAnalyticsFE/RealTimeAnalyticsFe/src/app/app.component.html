@@ -1,0 +1,25 @@
+<div class="container" style="font-family: system-ui, sans-serif; padding:16px;">
+  <h2>Realtime Analytics Dashboard (Angular)</h2>
+
+  <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px;">
+    <label>Sensor:</label>
+    <select [value]="sensorId()" (change)="changeSensor($any($event.target).value)">
+      <option [value]="0">All</option>
+      <option *ngFor="let s of sensors" [value]="s">Sensor-{{ s | number:'2.0' }}</option>
+    </select>
+    <div>Mean: {{ mean() | number:'1.2-2' }}</div>
+    <div>StdDev: {{ std() | number:'1.2-2' }}</div>
+    <div>Total Points (1m window): {{ points().length }}</div>
+    <div>Current Temperature: {{ currentTemp() | number:'1.2-2' }}</div>
+  </div>
+
+  <canvas baseChart
+    [type]="'line'"
+    [data]="chartData()"
+    [options]="chartOptions">
+  </canvas>
+
+  <p style="opacity:.7;margin-top:8px;">
+    Backend hub URL: <code>{{ hubUrl }}</code> (change in telemetry.service.ts)
+  </p>
+</div>
